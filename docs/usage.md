@@ -7,13 +7,21 @@ ait [GLOBAL OPTIONS] <COMMAND> [COMMAND OPTIONS] ...
 
 Global options are options whose meaning is independent from the command (if any) chosen.
 
-Command options are options that are dependent on a specific command.
+Command options are options that are dependent on a specific command. You can find a commands command options in its usage file (docs/commands/command_name.md).
 
 The ellipses here represent the fact that the syntax is different depending on the chosen command. Some commands may require additional operands of different types; some may not.
 
 Global options may come before or after the command and command options.
 
 Command options **must** come after the command.
+
+So an overview of syntax:
+- An invocation of ait must start with the word "ait"
+- you may ommit the command. For example, you may just run ```ait --help```
+- any command specific options must come after the command name
+- The commands operand can go anywhere after the command name (so long as it is not directly after an option that expects an operand)
+- If a global or command specific option requires an operand, the operand must come directly after the option
+- global options may go anywhere after the word "ait"
 
 ## Global Options
 ### '-h', '--help'
