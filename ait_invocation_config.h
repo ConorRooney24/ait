@@ -16,11 +16,16 @@ typedef enum
 } ait_cmd_t;
 
 
+typedef struct
+{
+    size_t count;
+    char** values;
+} ait_operands_t;
+
 // Each Commands Options Struct
 typedef struct
 {
-    size_t operands_count;
-    char** operands;
+    ait_operands_t operands;
 
     char* destination; // NULL if destination option not given
     bool system_install;
@@ -28,8 +33,7 @@ typedef struct
 
 typedef struct
 {
-    size_t operands_count;
-    char** operands;
+    ait_operands_t operands;
 
     bool keep_appimage;
     bool assume_yes;
@@ -44,8 +48,7 @@ typedef struct
 
 typedef struct
 {
-    size_t operands_count;
-    char** operands;
+    ait_operands_t operands;
 
     bool short_format;
 } ait_updateable_opts_t;
@@ -53,8 +56,7 @@ typedef struct
 
 typedef struct
 {
-    size_t operands_count;
-    char** operands;
+    ait_operands_t operands;
 
     bool assume_yes;
 } ait_update_opts_t;
