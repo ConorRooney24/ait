@@ -1,6 +1,9 @@
 // ait_invocation_config.h
 // Parses cli arguments and stores results in an invocation config struct
 
+#ifndef AIT_INVOCATION_CONFIG_H
+#define AIT_INVOCATION_CONFIG_H
+
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -85,3 +88,5 @@ typedef struct
     ait_cmd_opts_t cmd_opts;
 
 } ait_invocation_config_t;
+
+#endif
