@@ -13,7 +13,7 @@ The operands are names of installed AppImages which can be obtained using the ``
 
 ## Command Options
 
-### --keep-app
+### --keep-appimage
 Only removes the installation record and .desktop entry. the AppImage file will stay in the install directory.
 
 ### --assume-yes
