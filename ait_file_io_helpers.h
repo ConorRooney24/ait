@@ -7,5 +7,6 @@
 #include <stdbool.h>
 
 bool ait_does_directory_exist(const char* path);
+bool ait_does_file_exist(const char* path);
 
 #endif

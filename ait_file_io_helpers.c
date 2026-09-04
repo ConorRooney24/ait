@@ -8,3 +8,12 @@ bool ait_does_directory_exist(const char* path)
 
     return false;
 }
+
+bool ait_does_file_exist(const char* path)
+{
+    struct stat st;
+
+    if (stat(path, &st) == 0 && S_ISREG(st.st_mode)) return true;
+
+    return false;
+}
