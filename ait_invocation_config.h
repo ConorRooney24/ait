@@ -131,4 +131,6 @@ bool ait_add_operand(ait_operands_t *operands, const char *str);
 
 ait_invocation_config_t ait_arguments_parse(int argc, char** argv);
 
+void ait_print_invocation_config_details(ait_invocation_config_t config);
+
 #endif
