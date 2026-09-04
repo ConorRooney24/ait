@@ -185,7 +185,34 @@ ait_invocation_config_t ait_arguments_parse(int argc, char** argv)
                 // does this command expect an operand?
                 if (ait_does_cmd_expect_operand(invocation_config.cmd))
                 {
-                    // TODO Add this to the commands operand list
+                    // switch of all commands that take an operand
+                    switch (invocation_config.cmd)
+                    {
+                        case AIT_CMD_INSTALL:
+                            invocation_config.cmd_opts.install.operands.values[invocation_config.cmd_opts.install.operands.count] = strdup(argv[i]);
+                            invocation_config.cmd_opts.install.operands.count++;
+                            break;
+
+                        case AIT_CMD_UNINSTALL:
+                            invocation_config.cmd_opts.uninstall.operands.values[invocation_config.cmd_opts.uninstall.operands.count] = strdup(argv[i]);
+                            invocation_config.cmd_opts.uninstall.operands.count++;
+                            break;
+
+                        case AIT_CMD_UPDATEABLE:
+                            invocation_config.cmd_opts.updateable.operands.values[invocation_config.cmd_opts.updateable.operands.count] = strdup(argv[i]);
+                            invocation_config.cmd_opts.updateable.operands.count++;
+                            break;
+
+                        case AIT_CMD_UPDATE:
+                            invocation_config.cmd_opts.update.operands.values[invocation_config.cmd_opts.update.operands.count] = strdup(argv[i]);
+                            invocation_config.cmd_opts.update.operands.count++;
+                            break;
+
+                        default:
+                            printf("Internal Error: Unexpected command accepting operand in ait_invocation_config.c\n");
+                            exit(1);
+                            break;
+                    }
                 }
                 else // command does not expect an operand
                 {
