@@ -1,4 +1,4 @@
-## Installed Command
+# Installed Command
 
 The installed commaned can be used to list currently installed AppImages
 
