@@ -18,7 +18,35 @@ typedef enum
     AIT_CMD_UPDATE
 } ait_cmd_t;
 
+// Global Options type
+typedef enum
+{
+    AIT_GLOBAL_OPT_NONE,
+    AIT_GLOBAL_OPT_HELP,
+    AIT_GLOBAL_OPT_VERSION
+} ait_global_opt_t;
 
+// Command Specific Options type
+typedef enum
+{
+    // The naming here is AIT_CMD_SPECIFIC_OPT_<command>_<option_name>
+
+    AIT_CMD_SPECIFIC_OPT_NONE,
+
+    AIT_CMD_SPECIFIC_OPT_INSTALL_SYSTEM_INSTALL,
+    AIT_CMD_SPECIFIC_OPT_INSTALL_DESTINATION,
+
+    AIT_CMD_SPECIFIC_OPT_INSTALLED_SHORT_FORMAT,
+
+    AIT_CMD_SPECIFIC_OPT_UNINSTALL_KEEP_APPIMAGE,
+    AIT_CMD_SPECIFIC_OPT_UNINSTALL_ASSUME_YES,
+
+    AIT_CMD_SPECIFIC_OPT_UPDATE_ASSUME_YES,
+
+    AIT_CMD_SPECIFIC_OPT_UPDATEABLE_SHORT_FORMAT,
+} ait_cmd_specific_opt_t;
+
+// Operands type
 typedef struct
 {
     size_t count;
@@ -88,5 +116,17 @@ typedef struct
     ait_cmd_opts_t cmd_opts;
 
 } ait_invocation_config_t;
+
+ait_global_opt_t ait_which_global_opt(const char* str); // Returns the matching ait_global_opt_t for the string given. returns none if its not a valid global option string.
+ait_cmd_specific_opt_t ait_which_cmd_specific_option(const char* str, ait_cmd_t cmd); // Returns the matching cmd_specific_opt_t for the string and command given. returns none if the string does not match any cmd specific opt.
+ait_cmd_t ait_which_cmd(const char* str); // returns an ait_cmd_t if the string matches a command. returns AIT_CMD_NONE if str matches no command.
+
+
+bool ait_does_cmd_specific_opt_expect_value(ait_cmd_specific_opt_t opt);
+bool ait_does_global_opt_expect_value(ait_global_opt_t opt);
+
+bool ait_does_cmd_expect_operand(ait_cmd_t cmd);
+
+ait_invocation_config_t ait_arguments_parse(int argc, char** argv);
 
 #endif
