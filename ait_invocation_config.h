@@ -127,6 +127,8 @@ bool ait_does_global_opt_expect_value(ait_global_opt_t opt);
 
 bool ait_does_cmd_expect_operand(ait_cmd_t cmd);
 
+bool ait_add_operand(ait_operands_t *operands, const char *str);
+
 ait_invocation_config_t ait_arguments_parse(int argc, char** argv);
 
 #endif

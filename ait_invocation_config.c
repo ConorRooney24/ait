@@ -67,6 +67,23 @@ bool ait_does_cmd_expect_operand(ait_cmd_t cmd)
     return true;
 }
 
+bool ait_add_operand(ait_operands_t *operands, const char *str)
+{
+    char **new_values = realloc(operands->values, (operands->count + 1) * sizeof(*operands->values));
+
+    if (new_values == NULL) return false;
+
+    operands->values = new_values;
+
+    operands->values[operands->count] = strdup(str);
+
+    if (operands->values[operands->count] == NULL) return false;
+
+    operands->count++;
+
+    return true;
+}
+
 ait_invocation_config_t ait_arguments_parse(int argc, char** argv)
 {
     ait_invocation_config_t invocation_config = {0}; // Init the config struct. now, this is delicate. if one of the enums changes order or something else changes about the struct, initing everything to 0 might not make sense then.
@@ -189,23 +206,35 @@ ait_invocation_config_t ait_arguments_parse(int argc, char** argv)
                     switch (invocation_config.cmd)
                     {
                         case AIT_CMD_INSTALL:
-                            invocation_config.cmd_opts.install.operands.values[invocation_config.cmd_opts.install.operands.count] = strdup(argv[i]);
-                            invocation_config.cmd_opts.install.operands.count++;
+                            if (!ait_add_operand(&invocation_config.cmd_opts.install.operands, argv[i]))
+                            {
+                                printf("Internal Error: Unable to allocate memory for operands\n");
+                                exit(1);
+                            }
                             break;
 
                         case AIT_CMD_UNINSTALL:
-                            invocation_config.cmd_opts.uninstall.operands.values[invocation_config.cmd_opts.uninstall.operands.count] = strdup(argv[i]);
-                            invocation_config.cmd_opts.uninstall.operands.count++;
+                            if (!ait_add_operand(&invocation_config.cmd_opts.uninstall.operands, argv[i]))
+                            {
+                                printf("Internal Error: Unable to allocate memory for operands\n");
+                                exit(1);
+                            }
                             break;
 
                         case AIT_CMD_UPDATEABLE:
-                            invocation_config.cmd_opts.updateable.operands.values[invocation_config.cmd_opts.updateable.operands.count] = strdup(argv[i]);
-                            invocation_config.cmd_opts.updateable.operands.count++;
+                            if (!ait_add_operand(&invocation_config.cmd_opts.updateable.operands, argv[i]))
+                            {
+                                printf("Internal Error: Unable to allocate memory for operands\n");
+                                exit(1);
+                            }
                             break;
 
                         case AIT_CMD_UPDATE:
-                            invocation_config.cmd_opts.update.operands.values[invocation_config.cmd_opts.update.operands.count] = strdup(argv[i]);
-                            invocation_config.cmd_opts.update.operands.count++;
+                            if (!ait_add_operand(&invocation_config.cmd_opts.update.operands, argv[i]))
+                            {
+                                printf("Internal Error: Unable to allocate memory for operands\n");
+                                exit(1);
+                            }
                             break;
 
                         default:
