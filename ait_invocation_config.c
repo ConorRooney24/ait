@@ -115,11 +115,53 @@ ait_invocation_config_t ait_arguments_parse(int argc, char** argv)
                         // Does this option expect a value?
                         if(ait_does_cmd_specific_opt_expect_value( ait_which_cmd_specific_option(argv[i], invocation_config.cmd) ))
                         {
-                            // TODO start expecting an operand for the option
+                            // Switch for all options that expect a value
+                            switch (ait_which_cmd_specific_option(argv[i], invocation_config.cmd))
+                            {
+                                case AIT_CMD_SPECIFIC_OPT_INSTALL_DESTINATION:
+                                    open_option = &invocation_config.cmd_opts.install.destination;
+                                    break;
+
+                                default:
+                                    printf("Internal Error: ait_invocation_config.c\n");
+                                    exit(1);
+                                    break;
+                            }
                         }
                         else // Command does not expect a value
                         {
-                            // TODO Toggle the bool for this option
+                            // Switch with all options that do not expect values
+                            switch (ait_which_cmd_specific_option(argv[i], invocation_config.cmd))
+                            {
+                                case AIT_CMD_SPECIFIC_OPT_INSTALL_SYSTEM_INSTALL:
+                                    invocation_config.cmd_opts.install.system_install = true;
+                                    break;
+
+                                case AIT_CMD_SPECIFIC_OPT_INSTALLED_SHORT_FORMAT:
+                                    invocation_config.cmd_opts.installed.short_format = true;
+                                    break;
+
+                                case AIT_CMD_SPECIFIC_OPT_UNINSTALL_KEEP_APPIMAGE:
+                                    invocation_config.cmd_opts.uninstall.keep_appimage = true;
+                                    break;
+
+                                case AIT_CMD_SPECIFIC_OPT_UNINSTALL_ASSUME_YES:
+                                    invocation_config.cmd_opts.uninstall.assume_yes = true;
+                                    break;
+
+                                case AIT_CMD_SPECIFIC_OPT_UPDATE_ASSUME_YES:
+                                    invocation_config.cmd_opts.update.assume_yes = true;
+                                    break;
+
+                                case AIT_CMD_SPECIFIC_OPT_UPDATEABLE_SHORT_FORMAT:
+                                    invocation_config.cmd_opts.updateable.short_format = true;
+                                    break;
+
+                                default:
+                                    printf("Internal Error: ait_invocation_config.c\n");
+                                    exit(1);
+                                    break;
+                            }
                         }
                     }
                     else // This is not a valid cmd specific option for the command
