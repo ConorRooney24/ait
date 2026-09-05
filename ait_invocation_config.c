@@ -280,8 +280,12 @@ ait_invocation_config_t ait_arguments_parse(int argc, char** argv)
             // If no operands given
             if (invocation_config.cmd_opts.install.operands.count <= 0)
             {
-                printf("Error: no operands given for install command (Operands should be paths to AppImages. Try ait --help for usage information)\n");
-                exit(1);
+                // Only cause error if both help and version are false
+                if (!invocation_config.help && !invocation_config.version)
+                {
+                    printf("Error: no operands given for install command (Operands should be paths to AppImages. Try ait --help for usage information)\n");
+                    exit(1);
+                }
             }
             // Check all operands to ensure they are files that exist
             for (size_t i = 0; i < invocation_config.cmd_opts.install.operands.count; i++)
