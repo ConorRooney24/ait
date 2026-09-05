@@ -314,8 +314,11 @@ ait_invocation_config_t ait_arguments_parse(int argc, char** argv)
             // Need to implement the catalogue before that can be done though
             if (invocation_config.cmd_opts.uninstall.operands.count <= 0)
             {
-                printf("Error: no operands given for uninstall command (Operands should be names of installed AppImages. Try ait --help for usage information)\n");
-                exit(1);
+                if (!invocation_config.help && !invocation_config.version)
+                {
+                    printf("Error: no operands given for uninstall command (Operands should be names of installed AppImages. Try ait --help for usage information)\n");
+                    exit(1);
+                }
             }
             break;
 
