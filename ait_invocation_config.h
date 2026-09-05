@@ -46,6 +46,9 @@ typedef enum
     AIT_CMD_SPECIFIC_OPT_UPDATEABLE_SHORT_FORMAT,
 } ait_cmd_specific_opt_t;
 
+// TODO. The enum types here are a bit ambiguous with the ones below naming wise.
+// Will probably get confusing. Maybe change enum types to be called xyz_id_t
+
 // Operands type
 typedef struct
 {
