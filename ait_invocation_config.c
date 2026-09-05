@@ -304,23 +304,36 @@ ait_invocation_config_t ait_arguments_parse(int argc, char** argv)
             break;
 
         case AIT_CMD_UNINSTALL:
-            printf("\tuninstall\n");
+            // We need to ensure that the operands passed here actually exist in our record of installed apps.
+            // Check this during the actual operation though. TODO
+            // Before uninstalling anything, ensure that all of the names are recognised installed apps
+            // Need to implement the catalogue before that can be done though
+            if (invocation_config.cmd_opts.uninstall.operands.count <= 0)
+            {
+                printf("Error: no operands given for uninstall command (Operands should be names of installed AppImages. Try ait --help for usage information)\n");
+                exit(1);
+            }
             break;
 
         case AIT_CMD_INSTALLED:
-            printf("\tinstalled\n");
+            // No validation needed at the moment
             break;
 
         case AIT_CMD_UPDATEABLE:
-            printf("\tupdateable\n");
+            // No validation needed
+            // Operands here are not required so it doesnt matter if count is 0
+            // Although, same with uninstall, we need to eventually make sure any operands given are installed appimages.
+            // TODO
             break;
 
         case AIT_CMD_UPDATE:
-            printf("\tupdate\n");
+            // Same as above. nothing needed at the moment. we will need stuff eventaully though
+            // TODO
             break;
 
         default:
-            printf("\tERROR: NULL\n");
+            // Case if there was no command. no validation needed at the moment.
+            // If we add global options that take operands then we need to do something here TODO
             break;
     }
 
