@@ -1,6 +1,6 @@
 #include "ait_invocation_config.h"
+#include "ait_file_io_helpers.h"
 #include <string.h>
-
 #include <stdio.h>
 
 ait_cmd_specific_opt_t ait_which_cmd_specific_option(const char* str, ait_cmd_t cmd)
@@ -136,6 +136,13 @@ ait_invocation_config_t ait_arguments_parse(int argc, char** argv)
                             switch (ait_which_cmd_specific_option(argv[i], invocation_config.cmd))
                             {
                                 case AIT_CMD_SPECIFIC_OPT_INSTALL_DESTINATION:
+                                    // Ensure there is room for a destination argument
+                                    if (i == argc-1)
+                                    {
+                                        printf("Error: No path given for install destination\n");
+                                        exit(1);
+                                    }
+
                                     open_option = &invocation_config.cmd_opts.install.destination;
                                     break;
 
@@ -266,6 +273,56 @@ ait_invocation_config_t ait_arguments_parse(int argc, char** argv)
     }
 
     // TODO run validation here. at this stage, we have parsed all of argv. we just need to ensure its valid. 
+    // Validation
+    switch (invocation_config.cmd)
+    {
+        case AIT_CMD_INSTALL:
+            // If no operands given
+            if (invocation_config.cmd_opts.install.operands.count <= 0)
+            {
+                printf("Error: no operands given for install command (Operands should be paths to AppImages. Try ait --help for usage information)\n");
+                exit(1);
+            }
+            // Check all operands to ensure they are files that exist
+            for (size_t i = 0; i < invocation_config.cmd_opts.install.operands.count; i++)
+            {
+                if (!ait_does_file_exist(invocation_config.cmd_opts.install.operands.values[i]))
+                {
+                    printf("Error: File '%s' does not exist\n", invocation_config.cmd_opts.install.operands.values[i]);
+                    exit(1);
+                }
+            }
+            // Ensure install destination is valid
+            if (invocation_config.cmd_opts.install.destination != NULL)
+            {
+                if (!ait_does_directory_exist(invocation_config.cmd_opts.install.destination))
+                {
+                    printf("Error: directory '%s' does not exist\n", invocation_config.cmd_opts.install.destination);
+                    exit(1);
+                }
+            }
+            break;
+
+        case AIT_CMD_UNINSTALL:
+            printf("\tuninstall\n");
+            break;
+
+        case AIT_CMD_INSTALLED:
+            printf("\tinstalled\n");
+            break;
+
+        case AIT_CMD_UPDATEABLE:
+            printf("\tupdateable\n");
+            break;
+
+        case AIT_CMD_UPDATE:
+            printf("\tupdate\n");
+            break;
+
+        default:
+            printf("\tERROR: NULL\n");
+            break;
+    }
 
     return invocation_config;
 }
