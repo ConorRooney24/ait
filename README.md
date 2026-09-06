@@ -6,6 +6,8 @@ A cli tool that makes installing and managing AppImages as easy as possible.
 - No GUI
 - Intuitive and easy to use
 
+*Note: AIT is not nearly finished, and is currently a work in progress. Not currently functional*
+
 # Usage
 For detailed usage information, read the [Usage Guide](docs/usage.md).
 
