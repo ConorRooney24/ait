@@ -9,7 +9,7 @@ ait [GLOBAL OPTIONS] updateable [COMMAND OPTIONS] [APPIMAGE NAME]...
 
 The updateable command may take any number of operands, including 0.
 
-If no operands are given, ait will default to checking all installed AppImages.
+If no operands are given, AIT will default to checking all installed AppImages.
 
 The operands are names of installed AppImages which can be obtained using the ```installed``` command.
 

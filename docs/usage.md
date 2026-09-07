@@ -1,6 +1,6 @@
 # ait Usage
 ## Synopsis
-The general syntax of a ait invocation is as follows:
+The general syntax of a AIT invocation is as follows:
 ```
 ait [GLOBAL OPTIONS] <COMMAND> [COMMAND OPTIONS] ...
 ```
@@ -16,7 +16,7 @@ Global options may come before or after the command and command options.
 Command options **must** come after the command.
 
 So an overview of syntax:
-- An invocation of ait must start with the word "ait"
+- An invocation of AIT must start with the word "ait"
 - you may ommit the command. For example, you may just run ```ait --help```
 - any command specific options must come after the command name
 - The commands operand can go anywhere after the command name (so long as it is not directly after an option that expects an operand)
@@ -32,7 +32,7 @@ If a command has been specified, the help screen will contain information on tha
 If no command has been specified, the help screen will give general usage information.
 
 ### '-v', '--version'
-Displays the currently installed version of ait.
+Displays the currently installed version of AIT.
 
 
 ## Commands
