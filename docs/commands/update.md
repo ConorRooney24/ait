@@ -9,7 +9,7 @@ ait [GLOBAL OPTIONS] update [COMMAND OPTIONS] [APPIMAGE NAME]...
 
 The update command may take any number of operands, including 0.
 
-If no operands are given, ait will default to updating all installed AppImages.
+If no operands are given, AIT will default to updating all installed AppImages.
 
 The operands are names of installed AppImages which can be obtained using the ```installed``` command.
 
