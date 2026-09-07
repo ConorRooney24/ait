@@ -1,4 +1,4 @@
-# ait Usage
+# AIT Usage
 ## Synopsis
 The general syntax of a AIT invocation is as follows:
 ```
