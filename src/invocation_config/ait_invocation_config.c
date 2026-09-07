@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 
-ait_cmd_specific_opt_t ait_which_cmd_specific_option(const char* str, ait_cmd_t cmd)
+ait_cmd_specific_opt_id_t ait_which_cmd_specific_option(const char* str, ait_cmd_id_t cmd)
 {
     if (cmd == AIT_CMD_INSTALL)
     {
@@ -31,14 +31,14 @@ ait_cmd_specific_opt_t ait_which_cmd_specific_option(const char* str, ait_cmd_t 
     return AIT_CMD_SPECIFIC_OPT_NONE;
 }
 
-ait_global_opt_t ait_which_global_opt(const char* str)
+ait_global_opt_id_t ait_which_global_opt(const char* str)
 {
     if(strcmp(str, "-h") == 0 || strcmp(str, "--help") == 0)    return AIT_GLOBAL_OPT_HELP;
     if(strcmp(str, "-v") == 0 || strcmp(str, "--version") == 0) return AIT_GLOBAL_OPT_VERSION;
     return AIT_GLOBAL_OPT_NONE;
 }
 
-ait_cmd_t ait_which_cmd(const char* str)
+ait_cmd_id_t ait_which_cmd(const char* str)
 {
     if (strcmp(str, "install") == 0)    return AIT_CMD_INSTALL;
     if (strcmp(str, "installed") == 0)  return AIT_CMD_INSTALLED;
@@ -48,19 +48,19 @@ ait_cmd_t ait_which_cmd(const char* str)
     return AIT_CMD_NONE;
 }
 
-bool ait_does_cmd_specific_opt_expect_value(ait_cmd_specific_opt_t opt)
+bool ait_does_cmd_specific_opt_expect_value(ait_cmd_specific_opt_id_t opt)
 {
     if (opt == AIT_CMD_SPECIFIC_OPT_INSTALL_DESTINATION) return true;
 
     return false;
 }
 
-bool ait_does_global_opt_expect_value(ait_global_opt_t opt)
+bool ait_does_global_opt_expect_value(ait_global_opt_id_t opt)
 {
     return false;
 }
 
-bool ait_does_cmd_expect_operand(ait_cmd_t cmd)
+bool ait_does_cmd_expect_operand(ait_cmd_id_t cmd)
 {
     if (cmd == AIT_CMD_INSTALLED) return false;
 

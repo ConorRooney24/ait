@@ -16,7 +16,7 @@ typedef enum
     AIT_CMD_INSTALLED,
     AIT_CMD_UPDATEABLE,
     AIT_CMD_UPDATE
-} ait_cmd_t;
+} ait_cmd_id_t;
 
 // Global Options type
 typedef enum
@@ -24,7 +24,7 @@ typedef enum
     AIT_GLOBAL_OPT_NONE,
     AIT_GLOBAL_OPT_HELP,
     AIT_GLOBAL_OPT_VERSION
-} ait_global_opt_t;
+} ait_global_opt_id_t;
 
 // Command Specific Options type
 typedef enum
@@ -44,7 +44,7 @@ typedef enum
     AIT_CMD_SPECIFIC_OPT_UPDATE_ASSUME_YES,
 
     AIT_CMD_SPECIFIC_OPT_UPDATEABLE_SHORT_FORMAT,
-} ait_cmd_specific_opt_t;
+} ait_cmd_specific_opt_id_t;
 
 // TODO. The enum types here are a bit ambiguous with the ones below naming wise.
 // Will probably get confusing. Maybe change enum types to be called xyz_id_t
@@ -110,7 +110,7 @@ typedef union
 // Main invocation config type
 typedef struct
 {
-    ait_cmd_t cmd;
+    ait_cmd_id_t cmd;
 
     // Global Options
     bool help;
@@ -120,15 +120,15 @@ typedef struct
 
 } ait_invocation_config_t;
 
-ait_global_opt_t ait_which_global_opt(const char* str); // Returns the matching ait_global_opt_t for the string given. returns none if its not a valid global option string.
-ait_cmd_specific_opt_t ait_which_cmd_specific_option(const char* str, ait_cmd_t cmd); // Returns the matching cmd_specific_opt_t for the string and command given. returns none if the string does not match any cmd specific opt.
-ait_cmd_t ait_which_cmd(const char* str); // returns an ait_cmd_t if the string matches a command. returns AIT_CMD_NONE if str matches no command.
+ait_global_opt_id_t ait_which_global_opt(const char* str); // Returns the matching ait_global_opt_t for the string given. returns none if its not a valid global option string.
+ait_cmd_specific_opt_id_t ait_which_cmd_specific_option(const char* str, ait_cmd_id_t cmd); // Returns the matching cmd_specific_opt_t for the string and command given. returns none if the string does not match any cmd specific opt.
+ait_cmd_id_t ait_which_cmd(const char* str); // returns an ait_cmd_t if the string matches a command. returns AIT_CMD_NONE if str matches no command.
 
 
-bool ait_does_cmd_specific_opt_expect_value(ait_cmd_specific_opt_t opt);
-bool ait_does_global_opt_expect_value(ait_global_opt_t opt);
+bool ait_does_cmd_specific_opt_expect_value(ait_cmd_specific_opt_id_t opt);
+bool ait_does_global_opt_expect_value(ait_global_opt_id_t opt);
 
-bool ait_does_cmd_expect_operand(ait_cmd_t cmd);
+bool ait_does_cmd_expect_operand(ait_cmd_id_t cmd);
 
 bool ait_add_operand(ait_operands_t *operands, const char *str);
 

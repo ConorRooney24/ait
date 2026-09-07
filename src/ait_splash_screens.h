@@ -12,7 +12,7 @@
 #define AIT_ANSI_UNDERLINE "\x1b[4m"
 #define AIT_ANSI_RESET     "\x1b[0m"
 
-void ait_print_help(ait_cmd_t cmd);
+void ait_print_help(ait_cmd_id_t cmd);
 
 void ait_print_help_main();
 void ait_print_help_install();

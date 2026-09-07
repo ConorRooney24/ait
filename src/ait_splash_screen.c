@@ -1,7 +1,7 @@
 #include "ait_splash_screens.h"
 #include <stdio.h>
 
-void ait_print_help(ait_cmd_t cmd)
+void ait_print_help(ait_cmd_id_t cmd)
 {
     switch (cmd)
     {
