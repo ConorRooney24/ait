@@ -4,7 +4,7 @@
 #ifndef AIT_SPLASH_SCREENS_H
 #define AIT_SPLASH_SCREENS_H
 
-#include "ait_invocation_config.h"
+#include "invocation_config/ait_invocation_config.h"
 
 #define AIT_ANSI_BOLD      "\x1b[1m"
 #define AIT_ANSI_FAINT     "\x1b[2m"

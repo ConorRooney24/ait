@@ -1,4 +1,4 @@
-#include "ait_invocation_config.h"
+#include "invocation_config/ait_invocation_config.h"
 #include "ait_splash_screens.h"
 
 int main(int argc, char** argv)

@@ -1,5 +1,5 @@
 #include "ait_invocation_config.h"
-#include "ait_file_io_helpers.h"
+#include "../ait_file_io_helpers.h"
 #include <string.h>
 #include <stdio.h>
 
