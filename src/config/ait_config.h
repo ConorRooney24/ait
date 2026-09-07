@@ -26,5 +26,6 @@ typedef enum
 } ait_config_opt_id_t;
 
 ait_config_opt_id_t ait_which_config_opt(const char* str);
+void ait_print_config_details(ait_config_t config);
 
 #endif
