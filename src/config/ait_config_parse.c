@@ -18,7 +18,7 @@ typedef enum
     AIT_LINE_PARSER_STATE_END_WHITESPACE
 } ait_line_parser_state_t;
 
-void ait_parse_config_line(const char* line, ait_da_char_t* key, ait_da_char_t* value)
+ait_config_line_id_t ait_parse_config_line(const char* line, ait_da_char_t* key, ait_da_char_t* value)
 {
     // Note: we dont need to check for quotes at this stage
     // at this point, quotes are considered part of the key
@@ -55,18 +55,53 @@ void ait_parse_config_line(const char* line, ait_da_char_t* key, ait_da_char_t* 
                 case AIT_LINE_PARSER_STATE_END_WHITESPACE:
                     break;
                 default:
-                    goto line_parser_error;
+                    // Error
+                    return AIT_CONFIG_LINE_INVALID;
             }
         }
-        else if (ch == '#' || ch == '\n' || ch == '\0') // Comment can be treated the same as end of line
+        else if (ch == '\n' || ch == '\0')
         {
-            // If we have gotten our key and value, finish the line, if we havent, throw error
-            if (state >= AIT_LINE_PARSER_STATE_VALUE) goto line_parser_finish;
-            else goto line_parser_error;
+            switch (state)
+            {
+                case AIT_LINE_PARSER_STATE_START_WHITESPACE:
+                    return AIT_CONFIG_LINE_BLANK;
+                    break;
+                case AIT_LINE_PARSER_STATE_END_WHITESPACE:
+                    if (equal_found == false) return AIT_CONFIG_LINE_INVALID; // Error
+                    ait_da_char_push(key, '\0');
+                    ait_da_char_push(value, '\0');
+                    return AIT_CONFIG_LINE_KEY_VALUE;
+                    break;
+                case AIT_LINE_PARSER_STATE_VALUE:
+                case AIT_LINE_PARSER_STATE_MID_WHITESPACE:
+                case AIT_LINE_PARSER_STATE_KEY:
+                default:
+                    // Error
+                    return AIT_CONFIG_LINE_INVALID;
+            }
+        }
+        else if (ch == '#')
+        {
+            if (state >= AIT_LINE_PARSER_STATE_VALUE)
+            {
+                if (equal_found == false) return AIT_CONFIG_LINE_INVALID; // Error
+                ait_da_char_push(key, '\0');
+                ait_da_char_push(value, '\0');
+                return AIT_CONFIG_LINE_KEY_VALUE_COMMENT;
+            }
+            else if (state == AIT_LINE_PARSER_STATE_START_WHITESPACE)
+            {
+                return AIT_CONFIG_LINE_COMMENT;
+            }
+            else
+            {
+                // Error
+                return AIT_CONFIG_LINE_INVALID;
+            }
         }
         else if (ch == '=')
         {
-            if (equal_found) goto line_parser_error;
+            if (equal_found) return AIT_CONFIG_LINE_INVALID; // Error
 
             if (state == AIT_LINE_PARSER_STATE_VALUE)
             {
@@ -79,14 +114,15 @@ void ait_parse_config_line(const char* line, ait_da_char_t* key, ait_da_char_t* 
             }
             else
             {
-                goto line_parser_error;
+                // Error
+                return AIT_CONFIG_LINE_INVALID;
             }
         }
         else // normal char
         {
             if (state == AIT_LINE_PARSER_STATE_START_WHITESPACE) state++;
             if (state == AIT_LINE_PARSER_STATE_MID_WHITESPACE) state++;
-            if (state == AIT_LINE_PARSER_STATE_END_WHITESPACE) goto line_parser_error;
+            if (state == AIT_LINE_PARSER_STATE_END_WHITESPACE) return AIT_CONFIG_LINE_INVALID; // Error
             if (state == AIT_LINE_PARSER_STATE_KEY)
             {
                 ait_da_char_push(key, ch);
@@ -97,23 +133,12 @@ void ait_parse_config_line(const char* line, ait_da_char_t* key, ait_da_char_t* 
             }
             else
             {
-                printf("Error 1. char: '%c'\n", ch);
-                goto line_parser_error;
+                // Error
+                return AIT_CONFIG_LINE_INVALID;
             }
         }
     }
 
-    line_parser_finish:
-    // Add null terminator and return
-    if (equal_found == false) goto line_parser_error;
-    ait_da_char_push(key, '\0');
-    ait_da_char_push(value, '\0');
-    return;
-
-    line_parser_error:
-    // print error and exit
-    printf("Error: Invalid line in config file '%s'\n", line);
-    exit(1);
 }
 
 

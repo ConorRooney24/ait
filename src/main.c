@@ -4,7 +4,6 @@
 #include "config/ait_config_parse.h"
 #include "helpers/ait_dynamic_array.h"
 #include <stdio.h>
-
 int main(int argc, char** argv)
 {
     ait_invocation_config_t cfg;
