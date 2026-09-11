@@ -51,6 +51,7 @@ void ait_da_char_push(ait_da_char_t *da, const char ch)
 void ait_da_char_free(ait_da_char_t *da)
 {
     free(da->data);
+    da->data = NULL;
     da->cap = 0;
     da->count = 0;
 }
