@@ -82,6 +82,17 @@ ait_config_line_id_t ait_parse_config_line(const char* line, ait_da_char_t* key,
                     return AIT_CONFIG_LINE_KEY_VALUE;
                     break;
                 case AIT_LINE_PARSER_STATE_VALUE:
+                    if (quotes_found == 1) // If we are inside a quote
+                    {
+                        return AIT_CONFIG_LINE_INVALID;
+                    }
+                    else // not inside quotes
+                    {
+                        if (equal_found == false) return AIT_CONFIG_LINE_INVALID;
+                        ait_da_char_push(key, '\0');
+                        ait_da_char_push(value, '\0');
+                        return AIT_CONFIG_LINE_KEY_VALUE;
+                    }
                 case AIT_LINE_PARSER_STATE_MID_WHITESPACE:
                 case AIT_LINE_PARSER_STATE_KEY:
                 default:
