@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "../../src/config/ait_config_parse.h"
 
-#define TEST_CASES 9
+#define TEST_CASES 11
 
 int main(void)
 {
@@ -20,6 +20,8 @@ int main(void)
         "",
         "key = value # comment",
         "key = \"value\"",
+        "\"key\" = value",
+        "key = \"value value value\"",
         "\"key\" = value"
     };
 
@@ -32,6 +34,8 @@ int main(void)
         AIT_CONFIG_LINE_INVALID,
         AIT_CONFIG_LINE_BLANK,
         AIT_CONFIG_LINE_KEY_VALUE_COMMENT,
+        AIT_CONFIG_LINE_KEY_VALUE,
+        AIT_CONFIG_LINE_INVALID,
         AIT_CONFIG_LINE_KEY_VALUE,
         AIT_CONFIG_LINE_INVALID
     };
@@ -46,6 +50,8 @@ int main(void)
         NULL,
         "key",
         "key",
+        NULL,
+        "key",
         NULL
     };
 
@@ -57,8 +63,11 @@ int main(void)
         NULL,
         NULL,
         NULL,
+        "value",
         "\"value\"",
-        "value"
+        NULL,
+        "\"value value value\"",
+        NULL
     };
 
     for (int i = 0; i < TEST_CASES; i++)
