@@ -83,14 +83,14 @@ int main(void)
         int pass = 1;
 
         printf("[ Case %d ] ", i+1);
-        printf("   Input String: %s\n", strings[i]);
-        printf("   Expected Return: %d - Actual: %d\n", returns[i], ret);
-        printf("   Expected Key: %s - Actual: %s\n", keys[i], k.data);
-        printf("   Expected Value: %s - Actual: %s\n", values[i], v.data);
+        printf("   Input String: '%s'\n", strings[i]);
+        printf("   Expected Return: '%d' - Actual: '%d'\n", returns[i], ret);
+        printf("   Expected Key: '%s' - Actual: '%s'\n", keys[i], k.data);
+        printf("   Expected Value: '%s' - Actual: '%s'\n", values[i], v.data);
         if (returns[i] != ret) pass = 0;
         if (keys[i] != k.data) pass = 0;
         if (values[i] != v.data) pass = 0;
-        printf("   %s\n", pass ? "Pass" : "Fail");
+        printf("   %s\n", (pass == 1) ? "Pass" : "Fail");
         printf("\n");
     }
 
