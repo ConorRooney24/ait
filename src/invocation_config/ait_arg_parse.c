@@ -1,5 +1,5 @@
 #include "ait_arg_parse.h"
-#include "../ait_file_io_helpers.h"
+#include "../helpers/ait_file_io_helpers.h"
 #include <stdio.h>
 
 ait_invocation_config_t ait_arguments_parse(int argc, char** argv)
