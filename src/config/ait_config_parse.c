@@ -75,6 +75,8 @@ ait_config_line_id_t ait_parse_config_line(const char* line, ait_da_char_t* key,
             switch (state)
             {
                 case AIT_LINE_PARSER_STATE_START_WHITESPACE:
+                    ait_da_char_free(key);
+                    ait_da_char_free(value);
                     return AIT_CONFIG_LINE_BLANK;
                     break;
                 case AIT_LINE_PARSER_STATE_END_WHITESPACE:
@@ -92,11 +94,18 @@ ait_config_line_id_t ait_parse_config_line(const char* line, ait_da_char_t* key,
                 case AIT_LINE_PARSER_STATE_VALUE:
                     if (quotes_found == 1) // If we are inside a quote
                     {
+                        ait_da_char_free(key);
+                        ait_da_char_free(value);
                         return AIT_CONFIG_LINE_INVALID;
                     }
                     else // not inside quotes
                     {
-                        if (equal_found == false) return AIT_CONFIG_LINE_INVALID;
+                        if (equal_found == false)
+                        {
+                            ait_da_char_free(key);
+                            ait_da_char_free(value);
+                            return AIT_CONFIG_LINE_INVALID;
+                        }
                         ait_da_char_push(key, '\0');
                         ait_da_char_push(value, '\0');
                         return AIT_CONFIG_LINE_KEY_VALUE;
@@ -104,12 +113,10 @@ ait_config_line_id_t ait_parse_config_line(const char* line, ait_da_char_t* key,
                 case AIT_LINE_PARSER_STATE_MID_WHITESPACE:
                 case AIT_LINE_PARSER_STATE_KEY:
                 default:
-                    {
-                        // Error
-                        ait_da_char_free(key);
-                        ait_da_char_free(value);
-                        return AIT_CONFIG_LINE_INVALID;
-                    }
+                    // Error
+                    ait_da_char_free(key);
+                    ait_da_char_free(value);
+                    return AIT_CONFIG_LINE_INVALID;
             }
         }
         else if (ch == '#')
@@ -130,6 +137,8 @@ ait_config_line_id_t ait_parse_config_line(const char* line, ait_da_char_t* key,
             }
             else if (state == AIT_LINE_PARSER_STATE_START_WHITESPACE)
             {
+                ait_da_char_free(key);
+                ait_da_char_free(value);
                 return AIT_CONFIG_LINE_COMMENT;
             }
             else
