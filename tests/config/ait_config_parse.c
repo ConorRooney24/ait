@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "../../src/config/ait_config_parse.h"
+#include <string.h>
 
 #define TEST_CASES 11
 
@@ -80,18 +81,58 @@ int main(void)
 
         ret = ait_parse_config_line(strings[i], &k, &v);
 
-        int pass = 1;
 
-        printf("[ Case %d ] ", i+1);
-        printf("   Input String: '%s'\n", strings[i]);
-        printf("   Expected Return: '%d' - Actual: '%d'\n", returns[i], ret);
-        printf("   Expected Key: '%s' - Actual: '%s'\n", keys[i], k.data);
-        printf("   Expected Value: '%s' - Actual: '%s'\n", values[i], v.data);
+        printf("\x1b[34m\x1b[1m[ Case %d ] \x1b[0m\n", i+1);
+        printf("Input String: '%s'\n", strings[i]);
+        printf("Expected Return: '%d' - Actual: '%d'\n", returns[i], ret);
+        printf("Expected Key: '%s' - Actual: '%s'\n", keys[i], k.data);
+        printf("Expected Value: '%s' - Actual: '%s'\n", values[i], v.data);
+        printf("\n");
+        printf("Detailed String View:\n");
+
+        if (keys[i] != NULL)
+        {
+            printf("      Expected Key |");
+            for (int j = 0; j <= strlen(keys[i]); j++)
+            {
+                printf(" %c |", keys[i][j] == '\0' ? '0' : keys[i][j]);
+            }
+            printf("\n");
+        }
+        if (k.data != NULL)
+        {
+            printf("        Actual Key |");
+            for (int j = 0; j <= strlen(k.data); j++)
+            {
+                printf(" %c |", k.data[j] == '\0' ? '0' : k.data[j]);
+            }
+            printf("\n");
+        }
+        if (values[i] != NULL)
+        {
+            printf("    Expected Value |");
+            for (int j = 0; j <= strlen(values[i]); j++)
+            {
+                printf(" %c |", values[i][j] == '\0' ? '0' : values[i][j]);
+            }
+            printf("\n");
+        }
+        if (v.data != NULL)
+        {
+            printf("     Actual values |");
+            for (int j = 0; j <= strlen(v.data); j++)
+            {
+                printf(" %c |", v.data[j] == '\0' ? '0' : v.data[j]);
+            }
+            printf("\n");
+        }
+
+        int pass = 1;
         if (returns[i] != ret) pass = 0;
         if (keys[i] != k.data) pass = 0;
         if (values[i] != v.data) pass = 0;
-        printf("   %s\n", (pass == 1) ? "Pass" : "Fail");
-        printf("\n");
+        printf("%s\n", (pass == 1) ? "\x1b[32mPass\x1b[0m" : "\x1b[31mFail\x1b[0m");
+        printf("\n\n\n");
     }
 
     return 0;
