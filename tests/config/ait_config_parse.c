@@ -129,8 +129,22 @@ int main(void)
 
         int pass = 1;
         if (returns[i] != ret) pass = 0;
-        if (keys[i] != k.data) pass = 0;
-        if (values[i] != v.data) pass = 0;
+        if (keys[i] != NULL && k.data != NULL)
+        {
+            if (strcmp(keys[i], k.data) != 0) pass = 0;
+        }
+        else // one is null
+        {
+            if (keys[i] != k.data) pass = 0;
+        }
+        if (values[i] != NULL && v.data != NULL)
+        {
+            if (strcmp(values[i], v.data) != 0) pass = 0;
+        }
+        else // one is null
+        {
+            if (values[i] != v.data) pass = 0;
+        }
         printf("%s\n", (pass == 1) ? "\x1b[32mPass\x1b[0m" : "\x1b[31mFail\x1b[0m");
         printf("\n\n\n");
     }
